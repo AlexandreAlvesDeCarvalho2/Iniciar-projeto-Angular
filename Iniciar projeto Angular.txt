@@ -1,0 +1,9 @@
+ng new crud-angular			
+ng add @angular/material			
+ng g m courses --routing			
+ng g c courses/courses			
+ng g interface courses/model/course			
+ng g s courses/services/courses	--- import {HttpClient} from '@angular/common/http';	add no global: HttpClientModule
+			
+deixar modulo visivel: app.componentmodulo.ts adicionar	exports: [ ModuloComponent] 	
+config rotas: 	em app.components-routes adicionar {path: 'editar', component: EditarComponent }
