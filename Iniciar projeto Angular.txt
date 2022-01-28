@@ -1,9 +1,59 @@
 ng new crud-angular			
 ng add @angular/material			
-ng g m courses --routing			
-ng g c courses/courses			
+ng g m courses-page --routing			
+ng g c courses/course			
 ng g interface courses/model/course			
-ng g s courses/services/courses	--- import {HttpClient} from '@angular/common/http';	add no global: HttpClientModule
+ng g s courses/services/courses
+import {HttpClient} from '@angular/common/http';
+add no global: HttpClientModule
 			
-deixar modulo visivel: app.componentmodulo.ts adicionar	exports: [ ModuloComponent] 	
+deixar modulo visivel: "login-page.module.ts" adicionar	exports: [ LoginComponent] 	
 config rotas: 	em app.components-routes adicionar {path: 'editar', component: EditarComponent }
+
+conectar o angular no spring
+
+proxy.config.js
+
+const PROXY_CONFIG = [ { context: ['/api'], target: 'http://localhost:8080/', secure: false, logLevel: 'debug' } ]; module.explorts = PROXY_CONFIG;
+
+ng serve --proxy-config proxy.config.js
+
+
+------------------------------------------------------------------------------
+no componente.ts equivalente ao javaScript.. pegar o que foi digitado no html e transformar em objeto.
+
+
+em componet.ts
+//injetar dependencia: 
+constructor(private pedidoCompraService: PedidoCompraService){}
+
+	
+PostMethod() {
+    const NewRegistro: Registro = {
+
+      idpedido: 0,
+      produtoid: parseInt((<HTMLInputElement>document.getElementById('produto_id')).value),
+      clienteid: parseInt((<HTMLInputElement>document.getElementById('cliente_id')).value),
+      vendedorid: parseInt((<HTMLInputElement>document.getElementById('vendedor_id')).value),
+      datapedido: (<HTMLInputElement>document.getElementById('data_pedido')).value
+
+    };
+
+    console.log(NewRegistro);
+    this.pedidoCompraService.PostService(NewRegistro).subscribe(
+      (sucesso) => console.log('sucesso'),
+      (error) => console.log(error),
+      () => console.log
+    );
+  }
+
+em service.ts
+
+  constructor(private httpClient: HttpClient) {}
+  private readonly API = 'api';
+
+PostService(NewRegistro: any){
+
+    window.location.reload()
+    console.log(this.API+"/Logar")
+    return this.httpClient.post(this.API + "/Logar", NewRegistro).pipe(take(1));
